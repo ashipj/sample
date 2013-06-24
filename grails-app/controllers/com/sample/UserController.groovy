@@ -4,6 +4,16 @@ import org.springframework.dao.DataIntegrityViolationException
 
 import com.sample.constant.StandardStatusEnum;
 
+class CreateUserCommand {
+	String username;
+	String password;
+	int status;
+	
+	static constraints = {
+		importFrom User
+	}
+}
+
 class UserController {
 	def userService;
 	
@@ -41,14 +51,16 @@ class UserController {
         [userInstance: new User(params)]
     }
 
-    def save(User user) {
+    def save(CreateUserCommand createUserCmd) {
 		/**
 		 * Early validation - Validating user object in controller, would help us catch validation errors 
 		 * in early stages, rather than going into service class to find them.
 		 */
-		if(!user.validate()) {
-            render(view: "create", model: [userInstance: user])
+		if(createUserCmd.hasErrors()) {
+            render(view: "create", model: [userInstance: createUserCmd])
 		} else {
+			User user = new User();
+			user.properties = createUserCmd.properties;
 			user = userService.save(user);
 			flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), user.id])
 			redirect(action: "show", id: user.id)

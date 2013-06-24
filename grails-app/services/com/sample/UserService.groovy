@@ -31,7 +31,7 @@ class UserService {
 	 */
 	@CachePut("getUserCache")
 	public User save(User user) throws Exception {
-		return user.saveUser();
+		return user.save();
 	}
 	
 	/**

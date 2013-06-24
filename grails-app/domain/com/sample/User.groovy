@@ -14,9 +14,9 @@ class User {
 	
 	static hasMany = [wishList: Classified]
 	
-    static constraints = {
+	static constraints = {
 		username(nullable:false, blank:false, size:2..16 );
 		password(nullable:false, blank:false, size:6..16 );
 		location(nullable:true);
-    }
+	}
 }
