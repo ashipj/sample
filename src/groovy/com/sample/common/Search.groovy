@@ -11,7 +11,7 @@ public class Search {
 	
 	public void setMax(Integer max) {
 		// TODO : Check for validation and explain the concept
-		this.max = max;
+		this.max = max?max:10;
 	}
 	
 	def searchCriteria = {

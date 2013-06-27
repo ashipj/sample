@@ -6,6 +6,7 @@ import grails.plugin.cache.CachePut;
 import grails.plugin.cache.Cacheable;
 
 import org.hibernate.annotations.Cache;
+import org.hibernate.criterion.CriteriaSpecification
 
 class UserService {
 	def userCriteriaService;
@@ -97,5 +98,23 @@ class UserService {
 			return detachedCriteria.count();
 		else
 			return User.count();
+	}
+	
+	def list(UserSearch userSearch) {
+		def userCriteria = User.createCriteria()
+		Closure searchCriteria = userSearch.searchCriteria
+		searchCriteria.delegate = userCriteria
+		def userList = userCriteria.list([max: userSearch.max, offset: userSearch.offset]) {
+			projections {
+				property('username', 'name')
+				property('status', 'status')
+				location {
+					property('address', 'address')
+				}
+			}
+			searchCriteria()
+			setResultTransformer(CriteriaSpecification.PROJECTION)
+		}
+		return userList;
 	}
 }

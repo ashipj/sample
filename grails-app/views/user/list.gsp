@@ -20,7 +20,8 @@
 			<div class="">
 				<g:form controller="user" action="list" method="get">
 					<g:textField name="username" value="${params.username}" />
-					
+					<g:textField name="address" value="${params.address}" />
+					<g:select name="status" from="${1..2}" multiple="true" />
 					<g:submitButton name="Search" />
 				</g:form>
 			</div>

@@ -29,22 +29,25 @@ class UserController {
 	 * @param offset
 	 * @return
 	 */
-    def list(int max, int offset) {
+    def list(UserSearch userSearch) {
 		/**
 		 * UserCriteria : Use of criteria objects, would result in 
 		 * a) Flexible, Secure, clean and less code
 		 * b) Performance improvement, as the call for count is cached.
 		 */
-		UserCriteria userCriteria = new UserCriteria(username:params.username, offset:offset, max:max);
-		userCriteria = userService.list(userCriteria);
+//		UserCriteria userCriteria = new UserCriteria(username:params.username, offset:offset, max:max);
+//		userCriteria = userService.list(userCriteria);
+//		UserSearch userSearch = new UserSearch(username:params.username, offset:offset, max:max, status:params.status);
+		render( userService.list(userSearch).toString() );
 		/**
 		 * The count method is cached. The cache key is the result toString method of the userCriteria.
 		 * We should override the toString() method, so as to include all criteria fields used. 
 		 * For Grails cache to work, the call should be made from the controller.  
 		 * <a href="http://jira.grails.org/browse/GPCACHE-18">More Details</a>
 		 */
-		userCriteria.total = userService.count(userCriteria);
-        [userInstanceList: userCriteria.resultList, userInstanceTotal: userCriteria.total]
+//		userCriteria.total = userService.count(userCriteria);
+//        [userInstanceList: userCriteria.resultList, userInstanceTotal: userCriteria.total]
+//        [userInstanceList: userSearch.result, userInstanceTotal: User.count()]
     }
 
     def create() {

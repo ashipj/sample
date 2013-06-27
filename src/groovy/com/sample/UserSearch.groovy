@@ -8,6 +8,7 @@ import com.sample.common.Search;
 
 public class UserSearch extends Search {
 	String username;
+	String address;
 	List<Integer> status;
 
 	def searchCriteria = {
@@ -16,6 +17,11 @@ public class UserSearch extends Search {
 		}
 		if (status) {
 			inList("status", status)
+		}
+		if(address) {
+			location {
+				ilike("address", "%${address}%")
+			}
 		}
 		super.searchCriteria
 	}
